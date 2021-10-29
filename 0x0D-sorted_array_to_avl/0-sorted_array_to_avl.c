@@ -5,11 +5,11 @@
  * @value: value to put in the new node
  * Return: New Node or NULL if fail
  */
-binary_tree_t *create_tree_node(binary_tree_t *parent, int value)
+avl_t *create_tree_node(avl_t *parent, int value)
 {
-	binary_tree_t *new_node = NULL;
+	avl_t *new_node = NULL;
 
-	new_node = malloc(sizeof(binary_tree_t));
+	new_node = malloc(sizeof(avl_t));
 	if (!new_node)
 		return (NULL);
 
