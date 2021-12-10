@@ -5,38 +5,41 @@ import requests
 import sys
 
 
-def search(subreddit, word):
+def count_words(subreddit, word_list, after=None, count={}):
     """parses the title of all hot articles
     and prints a sorted count of given keywords
     """
-    url = 'https://www.reddit.com/r/{}/hot.json?after={}'.format(
-        subreddit, word.get('after'))
-    user_agent = {'User-Agent': 'dagute'}
-    req = requests.get(url, headers=user_agent).json()
-
-    if req.get('error') == 404:
-        return (None)
-    children = req.get('data').get('children')
-    for arg in children:
-        title = arg.get('data').get('title').lower().split(' ')
-        for key, value in word.items():
-            if key != 'after':
-                word[key] += title.count(key)
-    after = req.get('data').get('after')
-    if after:
-        word['after'] = after
-        search(subreddit, word)
+    if word_list == []:
+        return None
     else:
-        for key, value in sorted(word.items()):
-            if value is not 0 and key is not 'after':
-                print("{}: {}".format(key, value))
-
-
-def count_words(subreddit, word_list):
-    """counts words in a subreddit
-    """
-    res = {}
-    for arg in word_list:
-        res[arg] = 0
-    res['after'] = ''
-    search(subreddit, res)
+        lower_list = (map(lambda word: word.lower(), word_list))
+        word_list = list(lower_list)
+    if after is None:
+        req = 'https://www.reddit.com/r/{}/hot.json'.format(subreddit)
+    else:
+        req = 'https://www.reddit.com/r/{}/hot.json?after={}'.format(
+            subreddit, after)
+    hot_request = requests.get(req,
+                               headers={"user-agent": "user"},
+                               allow_redirects=False)
+    try:
+        data = hot_request.json().get("data")
+    except:
+        return
+    for word in word_list:
+        if word not in count.keys():
+            count[word] = 0
+    children = data.get("children")
+    for child in children:
+        title = (child.get("data").get("title").lower())
+        title = title.split(' ')
+        for word in word_list:
+            count[word] += title.count(word)
+    after = data.get("after")
+    if after is not None:
+        return count_words(subreddit, word_list, after, count)
+    else:
+        sorted_subs = sorted(count.items(), key=lambda x: (-x[1], x[0]))
+        for i in sorted_subs:
+            if i[1] != 0:
+                print(i[0] + ": " + str(i[1]))
