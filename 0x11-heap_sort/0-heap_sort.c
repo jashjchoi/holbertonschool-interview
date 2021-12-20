@@ -1,5 +1,16 @@
 #include "sort.h"
 /**
+ * swap_num - change the value of two variable with pointers
+ * @n: pointer for 1st variable
+ * @m: pointer for 2nd variable
+ */
+void swap_num(int *n, int *m)
+{
+	int tmp = *n;
+		*n = *m;
+		*m = tmp;
+}
+/**
  * max_heap - binary distribution
  * @array: pointer to array
  * @size: actual size
@@ -24,17 +35,6 @@ void max_heap(int *array, int size, int i, size_t total)
 		print_array(array, total);
 		max_heap(array, size, max_num, total);
 	}
-}
-/**
- * swap_num - change the value of two variable with pointers
- * @n: pointer for 1st variable
- * @m: pointer for 2nd variable
- */
-void swap_num(int *n, int *m)
-{
-	int tmp = *n;
-		*n = *m;
-		*m = tmp;
 }
 /**
  * heap_sort - sorts an array of integers in ascending order
