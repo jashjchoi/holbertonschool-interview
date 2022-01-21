@@ -42,10 +42,12 @@ void merge_sub(int *subarr, int *array, size_t left, size_t mid, size_t right)
 		else
 			subarr[k++] = array[j++];
 	}
+
     while (j < right)
         subarr[k++] = array[j++];
+
 	while (i < mid)
-		subarr[k++] = array[i++];
+        subarr[k++] = array[i++];
 
 	for (k = left, i = 0; k < right; k++)
 		array[k] = subarr[i++];
