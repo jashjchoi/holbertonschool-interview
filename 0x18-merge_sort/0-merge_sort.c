@@ -43,7 +43,7 @@ void merge_sub(int *subarr, int *array, size_t left, size_t mid, size_t right)
 			subarr[k++] = array[j++];
 	}
     while (j < right)
-		subarr[k++] = array[j++];
+        subarr[k++] = array[j++];
 	while (i < mid)
 		subarr[k++] = array[i++];
 
@@ -56,7 +56,7 @@ void merge_sub(int *subarr, int *array, size_t left, size_t mid, size_t right)
 
 /**
 * split_arr - recursively call to get middle
-* @subarr_arr: subarray to merge
+* @subarr: subarray to merge
 * @array: input array
 * @start: start index
 * @end: end index
